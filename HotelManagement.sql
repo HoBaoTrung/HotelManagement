@@ -1,4 +1,5 @@
 -- Tạo database
+Drop database if exists HotelManagement;
 CREATE DATABASE IF NOT EXISTS HotelManagement;
 USE HotelManagement;
 
@@ -46,7 +47,7 @@ CREATE TABLE Booking (
 
 -- Bảng chi tiết đặt phòng
 CREATE TABLE BookingDetail (
-    booking_detail_id INT PRIMARY KEY AUTO_INCREMENT,
+	booking_detail_id CHAR(5) PRIMARY KEY,
     booking_id INT,
     room_id INT,
     FOREIGN KEY (booking_id) REFERENCES Booking(booking_id),
@@ -64,7 +65,7 @@ CREATE TABLE Service (
 -- Bảng sử dụng dịch vụ theo từng phòng
 CREATE TABLE ServiceUsage (
     usage_id INT PRIMARY KEY AUTO_INCREMENT,
-    booking_detail_id INT,
+    booking_detail_id CHAR(5),
     service_id INT,
     quantity INT,
     usage_time DATETIME,
@@ -72,6 +73,12 @@ CREATE TABLE ServiceUsage (
     FOREIGN KEY (booking_detail_id) REFERENCES BookingDetail(booking_detail_id),
     FOREIGN KEY (service_id) REFERENCES Service(service_id)
 );
+
+CREATE TABLE PaymentMethod (
+    method_id INT PRIMARY KEY AUTO_INCREMENT,
+    method_name VARCHAR(100)
+);
+
 
 -- Bảng hóa đơn
 CREATE TABLE Invoice (
@@ -82,8 +89,9 @@ CREATE TABLE Invoice (
     service_charge DECIMAL(10,2),
     total_amount DECIMAL(12,2),
     payment_status ENUM('Unpaid', 'Paid') DEFAULT 'Unpaid',
-    payment_method ENUM('Cash', 'MoMo', 'VNPay', 'BankTransfer'),
-    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id)
+    payment_method_id INT,
+    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id),
+    FOREIGN KEY (payment_method_id) REFERENCES PaymentMethod(method_id)
 );
 
 -- Bảng nhân viên
@@ -99,7 +107,7 @@ CREATE TABLE Staff (
 -- 🌟 Đánh giá / phản hồi khách hàng
 CREATE TABLE Feedback (
     feedback_id INT PRIMARY KEY AUTO_INCREMENT,
-    booking_detail_id INT,
+    booking_detail_id char(5),
     rating INT CHECK (rating BETWEEN 1 AND 5),
     comment TEXT,
     feedback_date DATETIME,
