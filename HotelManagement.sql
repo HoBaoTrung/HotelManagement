@@ -61,7 +61,7 @@ CREATE TABLE Service (
     unit VARCHAR(50)
 );
 
--- Bảng sử dụng dịch vụ (gắn với từng phòng)
+-- Bảng sử dụng dịch vụ theo từng phòng
 CREATE TABLE ServiceUsage (
     usage_id INT PRIMARY KEY AUTO_INCREMENT,
     booking_detail_id INT,
@@ -82,6 +82,7 @@ CREATE TABLE Invoice (
     service_charge DECIMAL(10,2),
     total_amount DECIMAL(12,2),
     payment_status ENUM('Unpaid', 'Paid') DEFAULT 'Unpaid',
+    payment_method ENUM('Cash', 'MoMo', 'VNPay', 'BankTransfer'),
     FOREIGN KEY (booking_id) REFERENCES Booking(booking_id)
 );
 
@@ -91,6 +92,48 @@ CREATE TABLE Staff (
     full_name VARCHAR(100),
     username VARCHAR(50) UNIQUE,
     password_hash VARCHAR(255),
-    role ENUM('Admin', 'Receptionist', 'Cleaner'),
+    role ENUM('Admin', 'Receptionist'),
     email VARCHAR(100)
 );
+
+-- 🌟 Đánh giá / phản hồi khách hàng
+CREATE TABLE Feedback (
+    feedback_id INT PRIMARY KEY AUTO_INCREMENT,
+    booking_detail_id INT,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    feedback_date DATETIME,
+    FOREIGN KEY (booking_detail_id) REFERENCES BookingDetail(booking_detail_id)
+);
+
+-- 🌟 Ưu đãi / khuyến mãi
+CREATE TABLE Promotion (
+    promotion_id INT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(50) UNIQUE,
+    description TEXT,
+    discount_percent DECIMAL(5,2),
+    valid_from DATE,
+    valid_to DATE,
+    active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE BookingPromotion (
+    booking_id INT,
+    promotion_id INT,
+    PRIMARY KEY (booking_id, promotion_id),
+    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id),
+    FOREIGN KEY (promotion_id) REFERENCES Promotion(promotion_id)
+);
+
+
+-- 🌟 Nhật ký hoạt động của nhân viên
+CREATE TABLE ActionLog (
+    log_id INT PRIMARY KEY AUTO_INCREMENT,
+    staff_id INT,
+    action_type VARCHAR(50),
+    description TEXT,
+    action_time DATETIME,
+    FOREIGN KEY (staff_id) REFERENCES Staff(staff_id)
+);
+
+
