@@ -1,0 +1,9 @@
+cloudinary.cloud_name=tên kho cloud
+cloudinary.api_key=api-key
+cloudinary.api_secret=api-secret
+
+# MySQL Database Configuration
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=url
+spring.datasource.username=username
+spring.datasource.password=password
