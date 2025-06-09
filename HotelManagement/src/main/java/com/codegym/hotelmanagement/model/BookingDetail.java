@@ -42,7 +42,7 @@ public class BookingDetail {
                 counter = 0;
             }
             long numberToEncode = now * 100 + counter; // đảm bảo duy nhất từng ms
-            return hashids.encode(numberToEncode);
+            return hashids.encode(numberToEncode).toUpperCase();
         }
     }
 }

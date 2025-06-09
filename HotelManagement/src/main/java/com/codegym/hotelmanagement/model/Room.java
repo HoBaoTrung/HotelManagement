@@ -11,7 +11,6 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_id")
     private Integer roomId;
 
     @Column(unique = true,name = "room_number")

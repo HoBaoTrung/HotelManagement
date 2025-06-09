@@ -13,10 +13,8 @@ public class RoomType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_type_id")
     private Integer roomTypeId;
 
-    @Column(name = "type_name")
     private String typeName;
     private BigDecimal price;
 

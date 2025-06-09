@@ -11,9 +11,11 @@ import lombok.*;
 public class BookingPromotion {
 
     @Id
+    @Column(name = "booking_id")
     private Integer bookingId;
 
     @Id
+    @Column(name = "promotion_id")
     private Integer promotionId;
 
     @ManyToOne

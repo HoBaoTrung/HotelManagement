@@ -20,7 +20,9 @@ public class Booking {
     private Customer customer;
 
     private LocalDateTime bookingDate;
+
     private LocalDate checkInDate;
+
     private LocalDate checkOutDate;
 
     @Enumerated(EnumType.STRING)
