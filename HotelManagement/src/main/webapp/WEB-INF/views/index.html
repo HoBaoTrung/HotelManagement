@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/layout :: head">
+    <title>Home</title>
+</head>
+<body  style="padding-top: 50px;">
+
+<header th:replace="fragments/header :: header"></header>
+
+<main>
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Tìm Phòng</h2>
+        <form class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Ngày đến</label>
+                <input type="date" class="form-control" name="checkIn">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Ngày đi</label>
+                <input type="date" class="form-control" name="checkOut">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Số người</label>
+                <input type="number" class="form-control" name="guests" min="1" value="1">
+            </div>
+            <div class="col-md-3 align-self-end">
+                <button type="submit" class="btn btn-primary w-100">Tìm Phòng</button>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer th:replace="fragments/layout :: footer"></footer>
+</body>
+</html>
