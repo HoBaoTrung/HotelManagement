@@ -23,6 +23,8 @@ public class RoomType {
 
     private Integer capacity;
 
+    private String imageURL;
+
     @OneToMany(mappedBy = "roomType",
             fetch = FetchType.LAZY)
     private Set<Room> rooms;

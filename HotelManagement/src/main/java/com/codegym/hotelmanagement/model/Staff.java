@@ -3,6 +3,9 @@ package com.codegym.hotelmanagement.model;
 import javax.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,10 +24,13 @@ public class Staff {
     private String passwordHash;
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private boolean active;
 
-    public enum Role {
-        Admin, Receptionist
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "StaffRole",
+            joinColumns = @JoinColumn(name = "staff_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 }
