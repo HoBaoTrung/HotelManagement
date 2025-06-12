@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout :: head">
+    <meta charset="UTF-8">
+    <title>Đặt Phòng Khách Sạn</title>
+    <link rel="stylesheet" href="../../../css/BookingStyle.css">
+</head>
+<body>
+<h2>Form Đặt Phòng</h2>
+<header th:replace="fragments/header :: header"></header>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Bộ lọc bên trái -->
+        <div class="col-md-4">
+            <form th:action="@{/booking}" method="get" class="border p-3 rounded shadow-sm bg-light">
+
+                <div class="mb-3 position-relative">
+                    <label class="form-label fw-bold">CHECK IN:</label>
+                    <div class="input-group">
+                        <input type="date" class="form-control" id="checkInDate" name="checkInDate" required>
+                        <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                    </div>
+                </div>
+                <div class="mb-3 position-relative">
+                    <label class="form-label fw-bold">CHECK OUT:</label>
+                    <div class="input-group">
+                        <input type="date" name="checkOutDate" id="checkOutDate" class="form-control" required>
+                        <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">ADULTS:</label>
+                    <select name="adults" class="form-select">
+                        <option th:each="i : ${#numbers.sequence(1, 5)}"
+                                th:value="${i}"
+                                th:text="${i}">1</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">CHILD (6–11 yrs):</label>
+                    <select name="childMid" class="form-select">
+                        <option th:each="i : ${#numbers.sequence(0, 5)}"
+                                th:value="${i}"
+                                th:text="${i}">0</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">CHILD (0–5 yrs):</label>
+                    <select name="childSmall" class="form-select">
+                        <option th:each="i : ${#numbers.sequence(0, 5)}"
+                                th:value="${i}"
+                                th:text="${i}">0</option>
+                    </select>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-outline-dark fw-bold">SEARCH AVAILABILITY</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Danh sách phòng bên phải -->
+        <div class="col-md-8">
+            <h5 class="mb-3">Available Rooms</h5>
+            <div th:if="${#lists.isEmpty(rooms)}" class="text-muted">No rooms available.</div>
+
+            <div th:each="room : ${rooms}" class="card mb-3 shadow-sm">
+
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img th:src="${room.imageURL}" class="img-fluid rounded-start" alt="Room Image">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h6 class="card-title" th:text="${room.typeName}">Room Name</h6>
+                            <p class="card-text">
+                                Price: <span th:text="${@thymeleafUtils.formatCurrency(room.price)}"></span><br>
+                                Capacity: <span th:text="${room.capacity}"></span> guests
+                            </p>
+                            <a th:href="@{'/rooms/book/' + ${room.roomTypeId}}" class="btn btn-sm btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments/layout :: footer"></footer>
+
+<script src="../../../js/checkDate.js">
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     // Lấy ngày hiện tại
+    //     const today = new Date().toISOString().split('T')[0];
+    //     // Đặt min cho checkInDate là ngày hiện tại
+    //     document.getElementById('checkInDate').setAttribute('min', today);
+    //
+    //     // Lắng nghe sự kiện thay đổi trên checkInDate
+    //     document.getElementById('checkInDate').addEventListener('change', function() {
+    //         const checkInDate = this.value; // Lấy giá trị ngày check-in
+    //         if (checkInDate) {
+    //             // Đặt min cho checkOutDate là ngày check-in
+    //             document.getElementById('checkOutDate').setAttribute('min', checkInDate);
+    //             // Optional: Xóa giá trị checkOutDate nếu nó nhỏ hơn checkInDate
+    //             const checkOutDateInput = document.getElementById('checkOutDate');
+    //             if (checkOutDateInput.value && checkOutDateInput.value < checkInDate) {
+    //                 checkOutDateInput.value = ''; // Xóa giá trị không hợp lệ
+    //             }
+    //         }
+    //     });
+    // });
+</script>
+</body>
+</html>
