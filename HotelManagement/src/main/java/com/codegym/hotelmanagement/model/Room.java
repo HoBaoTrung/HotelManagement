@@ -3,6 +3,8 @@ package com.codegym.hotelmanagement.model;
 import javax.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -19,6 +21,9 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "room_type_id")
     private RoomType roomType;
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    private List<BookingDetail> bookingDetails;
 
     @Enumerated(EnumType.STRING)
     private RoomStatus status;

@@ -4,6 +4,9 @@ import javax.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -25,10 +28,22 @@ public class Booking {
 
     private LocalDate checkOutDate;
 
+    private Double totalPrice;
+
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
     public enum BookingStatus {
         Booked, CheckedIn, Cancelled, CheckedOut
     }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "booking_type")
+    private BookingType bookingType = BookingType.Online;
+    public enum BookingType {
+        Online, WalkIn
+    }
+
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BookingDetail> bookingDetails;
 }

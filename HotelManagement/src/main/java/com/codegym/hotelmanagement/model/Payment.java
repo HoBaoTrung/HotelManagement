@@ -9,29 +9,27 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Invoice {
-
+public class Payment  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer invoiceId;
+    private Integer paymentId;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    private LocalDateTime invoiceDate;
-    private BigDecimal roomCharge;
-    private BigDecimal serviceCharge;
-    private BigDecimal totalAmount;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus;
+    @Column(name = "issue_date", nullable = false)
+    private LocalDateTime issueDate;
+
+    @Column(name = "total_amount", nullable = false)
+    private Double amount;
 
     @ManyToOne
     @JoinColumn(name = "payment_method_id")
     private PaymentMethod paymentMethod;
 
-    public enum PaymentStatus {
-        Unpaid, Paid
-    }
+    @Column(columnDefinition = "TEXT")
+    private String notes;
 }
+

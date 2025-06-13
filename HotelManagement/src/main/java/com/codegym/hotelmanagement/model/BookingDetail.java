@@ -4,6 +4,9 @@ import javax.persistence.*;
 import lombok.*;
 import org.hashids.Hashids;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -11,7 +14,8 @@ import org.hashids.Hashids;
 public class BookingDetail {
 
     @Id
-    private String bookingDetailId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer bookingDetailId;
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
@@ -21,28 +25,18 @@ public class BookingDetail {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @PrePersist
-    public void generateId() {
-        if (this.bookingDetailId == null || this.bookingDetailId.isEmpty()) {
-            this.bookingDetailId = IdGenerator.generate();
-        }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stay_type_id")
+    private StayType stayType;
+
+    @Column(name = "price")
+    private Double price;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private BookingDetailStatus status = BookingDetailStatus.Active;
+    public enum BookingDetailStatus {
+        Active, Inactive
     }
 
-    private static class IdGenerator {
-        private static final Hashids hashids = new Hashids("booking-detail-salt", 6);
-        private static long lastTime = System.currentTimeMillis();
-        private static int counter = 0;
-
-        public static synchronized String generate() {
-            long now = System.currentTimeMillis();
-            if (now == lastTime) {
-                counter++;
-            } else {
-                lastTime = now;
-                counter = 0;
-            }
-            long numberToEncode = now * 100 + counter; // đảm bảo duy nhất từng ms
-            return hashids.encode(numberToEncode).toUpperCase();
-        }
-    }
 }

@@ -16,7 +16,7 @@ public class RoomType {
     private Integer roomTypeId;
 
     private String typeName;
-    private BigDecimal price;
+    private Double price;
 
     @Column(columnDefinition = "TEXT")
     private String description;
