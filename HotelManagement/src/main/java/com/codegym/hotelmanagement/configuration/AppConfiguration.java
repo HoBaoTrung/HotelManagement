@@ -37,7 +37,7 @@ import java.util.Properties;
 @EnableWebMvc
 @ComponentScan("com.codegym.hotelmanagement")
 @EnableTransactionManagement
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:secret.properties")
 @EnableJpaRepositories("com.codegym.hotelmanagement.repository")
 @EnableSpringDataWebSupport
 public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAware {

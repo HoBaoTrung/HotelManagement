@@ -32,4 +32,10 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         return new Filter[] { encodingFilter };
     }
 
+    @Override
+    protected void customizeRegistration(javax.servlet.ServletRegistration.Dynamic registration) {
+        // Bắt buộc để ném NoHandlerFoundException
+        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+    }
+
 }
